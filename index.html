@@ -103,12 +103,11 @@
       margin-top: 20px;
       font-size: 1.2rem;
       font-weight: bold;
-      color: #e74c3c;
-      background: rgba(255, 255, 255, 0.2);
       padding: 15px;
       border-radius: 8px;
       text-align: left;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s, color 0.3s;
     }
 
     footer {
@@ -198,6 +197,8 @@
 
       if (!weight || !caffeine) {
         document.getElementById('result').innerText = "Please enter valid values.";
+        document.getElementById('result').style.backgroundColor = "#f39c12"; // Neutral color for invalid input
+        document.getElementById('result').style.color = "#2c3e50";
         return;
       }
 
@@ -206,8 +207,18 @@
       const message = caffeine >= lethalDose 
         ? `Warning: Your caffeine intake of ${caffeine}mg could be lethal for your weight of ${weight}${isPounds ? 'lbs' : 'kg'}!`
         : `Your caffeine intake of ${caffeine}mg is safe. The lethal dose for your weight would be ${lethalDose}mg.`;
+
+      // Change the result's background and text color based on the caffeine intake
+      const resultElement = document.getElementById('result');
+      if (caffeine >= lethalDose) {
+        resultElement.style.backgroundColor = "#e74c3c"; // Red for danger
+        resultElement.style.color = "#ecf0f1"; // Light text for contrast
+      } else {
+        resultElement.style.backgroundColor = "#2ecc71"; // Green for safe
+        resultElement.style.color = "#2c3e50"; // Dark text for contrast
+      }
       
-      document.getElementById('result').innerText = message;
+      resultElement.innerText = message;
     }
   </script>
 
