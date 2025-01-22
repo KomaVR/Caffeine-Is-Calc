@@ -210,6 +210,8 @@
         message = `Warning: Your caffeine intake of ${caffeine}mg can be lethal!`;
       } else if (caffeine >= lethalDose) {
         message = `Warning: Your caffeine intake of ${caffeine}mg could be lethal for your weight of ${weight}${isPounds ? 'lbs' : 'kg'}!`;
+      } else if (caffeine >= 1000) {
+        message = `Your caffeine intake of ${caffeine}mg is risky to take and could have harsh side effects. The lethal dose for your weight would be ${lethalDose}mg.`;
       } else if (caffeine >= lethalDose - 1000) {
         message = `Your caffeine intake of ${caffeine}mg is not very healthy but won't kill you. The lethal dose for your weight would be ${lethalDose}mg.`;
       } else {
@@ -224,6 +226,9 @@
       } else if (caffeine >= lethalDose) {
         resultElement.style.backgroundColor = "#e74c3c"; // Red for danger
         resultElement.style.color = "#ecf0f1"; // Light text for contrast
+      } else if (caffeine >= 1000) {
+        resultElement.style.backgroundColor = "#f39c12"; // Yellow for risky
+        resultElement.style.color = "#2c3e50"; // Dark text for contrast
       } else if (caffeine >= lethalDose - 1000) {
         resultElement.style.backgroundColor = "#f39c12"; // Yellow for not very healthy
         resultElement.style.color = "#2c3e50"; // Dark text for contrast
