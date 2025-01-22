@@ -178,15 +178,15 @@
   </footer>
 
   <script>
-    const LETHAL_DOSE_PER_KG = 192; // mg per kg body weight (LD50)
-    const LETHAL_DOSE_PER_LB = 87.1; // mg per lb body weight (LD50)
+    const LETHAL_DOSE_PER_KG = 192;
+    const LETHAL_DOSE_PER_LB = 87.1;
 
     function toggleUnit() {
       const isPounds = document.getElementById('unitToggle').checked;
       const weightInput = document.getElementById('weight');
       const unitLabel = isPounds ? 'Enter your weight (lbs):' : 'Enter your weight (kg):';
       document.querySelector('label[for="weight"]').innerText = unitLabel;
-      weightInput.value = ''; // Reset weight input when unit changes
+      weightInput.value = ''; 
       weightInput.placeholder = isPounds ? "Weight in lbs" : "Weight in kg";
     }
 
@@ -197,12 +197,11 @@
 
       if (!weight || !caffeine) {
         document.getElementById('result').innerText = "Please enter valid values.";
-        document.getElementById('result').style.backgroundColor = "#f39c12"; // Neutral color for invalid input
+        document.getElementById('result').style.backgroundColor = "#f39c12"; 
         document.getElementById('result').style.color = "#2c3e50";
         return;
       }
 
-      // Calculate lethal dose based on units (kg or lbs)
       const lethalDose = isPounds ? weight * LETHAL_DOSE_PER_LB : weight * LETHAL_DOSE_PER_KG;
       
       let message = "";
@@ -218,23 +217,22 @@
         message = `Your caffeine intake of ${caffeine}mg is safe. The lethal dose for your weight would be ${lethalDose}mg.`;
       }
 
-      // Change the result's background and text color based on the caffeine intake
       const resultElement = document.getElementById('result');
       if (caffeine >= 6000) {
-        resultElement.style.backgroundColor = "#c0392b"; // Red for lethal intake
-        resultElement.style.color = "#ecf0f1"; // Light text for contrast
+        resultElement.style.backgroundColor = "#c0392b"; 
+        resultElement.style.color = "#ecf0f1"; 
       } else if (caffeine >= lethalDose) {
-        resultElement.style.backgroundColor = "#e74c3c"; // Red for danger
-        resultElement.style.color = "#ecf0f1"; // Light text for contrast
+        resultElement.style.backgroundColor = "#e74c3c"; 
+        resultElement.style.color = "#ecf0f1"; 
       } else if (caffeine >= 1000) {
-        resultElement.style.backgroundColor = "#f39c12"; // Yellow for risky
-        resultElement.style.color = "#2c3e50"; // Dark text for contrast
+        resultElement.style.backgroundColor = "#f39c12"; 
+        resultElement.style.color = "#2c3e50"; 
       } else if (caffeine >= lethalDose - 1000) {
-        resultElement.style.backgroundColor = "#f39c12"; // Yellow for not very healthy
-        resultElement.style.color = "#2c3e50"; // Dark text for contrast
+        resultElement.style.backgroundColor = "#f39c12"; 
+        resultElement.style.color = "#2c3e50"; 
       } else {
-        resultElement.style.backgroundColor = "#2ecc71"; // Green for safe
-        resultElement.style.color = "#2c3e50"; // Dark text for contrast
+        resultElement.style.backgroundColor = "#2ecc71"; 
+        resultElement.style.color = "#2c3e50"; 
       }
 
       resultElement.innerText = message;
