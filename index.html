@@ -78,8 +78,12 @@
   <h1>Deadly Caffeine Calculator</h1>
 
   <div class="calculator">
-    <label for="weight">Enter your weight (kg):</label>
-    <input type="number" id="weight" placeholder="Weight in kg" required>
+    <label for="weight">Enter your weight:</label>
+    <input type="number" id="weight" placeholder="Weight" required>
+    <br>
+    <label>
+      <input type="checkbox" id="unitToggle" onchange="toggleUnit()"> Use pounds instead of kilograms
+    </label>
 
     <label for="caffeine">Enter caffeine intake (mg):</label>
     <input type="number" id="caffeine" placeholder="Caffeine consumed in mg" required>
@@ -94,19 +98,32 @@
   </footer>
 
   <script>
+    const LETHAL_DOSE_PER_KG = 150; // mg per kg body weight
+    const LETHAL_DOSE_PER_LB = 68; // mg per lb body weight
+
+    function toggleUnit() {
+      const isPounds = document.getElementById('unitToggle').checked;
+      const weightInput = document.getElementById('weight');
+      const unitLabel = isPounds ? 'Enter your weight (lbs):' : 'Enter your weight (kg):';
+      document.querySelector('label[for="weight"]').innerText = unitLabel;
+      weightInput.value = ''; // Reset weight input when unit changes
+      weightInput.placeholder = isPounds ? "Weight in lbs" : "Weight in kg";
+    }
+
     function calculateLethalDose() {
       const weight = parseFloat(document.getElementById('weight').value);
       const caffeine = parseFloat(document.getElementById('caffeine').value);
-      
+      const isPounds = document.getElementById('unitToggle').checked;
+
       if (!weight || !caffeine) {
         document.getElementById('result').innerText = "Please enter valid values.";
         return;
       }
 
-      const lethalDosePerKg = 150; // mg per kg body weight
-      const lethalDose = weight * lethalDosePerKg;
+      // Calculate lethal dose based on units (kg or lbs)
+      const lethalDose = isPounds ? weight * LETHAL_DOSE_PER_LB : weight * LETHAL_DOSE_PER_KG;
       const message = caffeine >= lethalDose 
-        ? `Warning: Your caffeine intake of ${caffeine}mg could be lethal for your weight of ${weight}kg!`
+        ? `Warning: Your caffeine intake of ${caffeine}mg could be lethal for your weight of ${weight}${isPounds ? 'lbs' : 'kg'}!`
         : `Your caffeine intake of ${caffeine}mg is safe. The lethal dose for your weight would be ${lethalDose}mg.`;
       
       document.getElementById('result').innerText = message;
