@@ -204,15 +204,24 @@
 
       // Calculate lethal dose based on units (kg or lbs)
       const lethalDose = isPounds ? weight * LETHAL_DOSE_PER_LB : weight * LETHAL_DOSE_PER_KG;
-      const message = caffeine >= lethalDose
-        ? `Warning: Your caffeine intake of ${caffeine}mg could be lethal for your weight of ${weight}${isPounds ? 'lbs' : 'kg'}!`
-        : (caffeine >= lethalDose - 1000
-            ? `Your caffeine intake of ${caffeine}mg is not very healthy but won't kill you. The lethal dose for your weight would be ${lethalDose}mg.`
-            : `Your caffeine intake of ${caffeine}mg is safe. The lethal dose for your weight would be ${lethalDose}mg.`);
+      
+      let message = "";
+      if (caffeine >= 6000) {
+        message = `Warning: Your caffeine intake of ${caffeine}mg can be lethal!`;
+      } else if (caffeine >= lethalDose) {
+        message = `Warning: Your caffeine intake of ${caffeine}mg could be lethal for your weight of ${weight}${isPounds ? 'lbs' : 'kg'}!`;
+      } else if (caffeine >= lethalDose - 1000) {
+        message = `Your caffeine intake of ${caffeine}mg is not very healthy but won't kill you. The lethal dose for your weight would be ${lethalDose}mg.`;
+      } else {
+        message = `Your caffeine intake of ${caffeine}mg is safe. The lethal dose for your weight would be ${lethalDose}mg.`;
+      }
 
       // Change the result's background and text color based on the caffeine intake
       const resultElement = document.getElementById('result');
-      if (caffeine >= lethalDose) {
+      if (caffeine >= 6000) {
+        resultElement.style.backgroundColor = "#c0392b"; // Red for lethal intake
+        resultElement.style.color = "#ecf0f1"; // Light text for contrast
+      } else if (caffeine >= lethalDose) {
         resultElement.style.backgroundColor = "#e74c3c"; // Red for danger
         resultElement.style.color = "#ecf0f1"; // Light text for contrast
       } else if (caffeine >= lethalDose - 1000) {
